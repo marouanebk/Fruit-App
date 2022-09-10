@@ -31,6 +31,7 @@ dependencies:
   dots_indicator: ^2.1.0
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.1
   loading_gifs: ^0.3.0
   persistent_bottom_nav_bar: ^4.0.2
 
@@ -58,7 +59,7 @@ flutter:
     - assets/images/Fruit_Market.png
     - assets/images/google.png
     - assets/images/fb.png
-    # - assets/images/startup3.png
+    - assets/images/fruit/strawberry.jpg
     # - assets/images/startup3.png
     # - assets/images/startup3.png
     # - assets\images\startup1.png
