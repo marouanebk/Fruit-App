@@ -58,7 +58,6 @@ class _DefaultPageScreenState extends State<DefaultPageScreen> {
     ];
   }
 
-
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
@@ -75,6 +74,13 @@ class _DefaultPageScreenState extends State<DefaultPageScreen> {
       hideNavigationBarWhenKeyboardShows:
           true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
       decoration: NavBarDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+        ],
         borderRadius: BorderRadius.circular(10.0),
         colorBehindNavBar: Colors.white,
       ),

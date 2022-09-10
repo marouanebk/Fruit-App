@@ -26,12 +26,16 @@ class _ItemCardState extends State<ItemCard> {
       children: [
         // SizedBox(height: 20,),
         GestureDetector(
-          // onTap:() =>             Navigator.pushNamed(
+          // onTap:() =>             Navigator.push(
           //     context,
           //     MaterialPageRoute(builder: (context) => ItemDetailCard()),
           //   ),
-          onTap: () =>  Navigator.pushNamed(context, 'ItemDetailCard'),
-            
+          // // onTap: () =>  Navigator.pushNamed(context, 'ItemDetailCard'),
+          // onTap: () => Navigator.pushAndRemoveUntil(context,  (route) => false),
+            onTap: () =>     Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+              builder: (_) => ItemDetailCard(),
+            ),
+          ),
           child: Container(
             height: 143,
             width: 118,

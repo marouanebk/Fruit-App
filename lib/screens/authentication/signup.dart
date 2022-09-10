@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:fruit_app/global%20variables/colors.dart';
-import 'package:fruit_app/screens/authentication/signup.dart';
-import 'package:fruit_app/screens/home/default.dart';
-import 'package:fruit_app/widgets/text_field_nput.dart';
+import 'package:fruit_app/screens/authentication/Login.dart';
+import 'package:fruit_app/screens/authentication/info.dart';
 
+import '../../global variables/colors.dart';
 import '../../resources/auth_methods.dart';
 import '../../utils/utils.dart';
+import '../../widgets/text_field_nput.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController _phonenumber = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
+  TextEditingController _fullname = TextEditingController();
+  TextEditingController _adress = TextEditingController();
   bool _isLoading = false;
 
   @override
@@ -27,18 +30,20 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _email.dispose();
     _password.dispose();
+    _phonenumber.dispose();
   }
 
-  void loginuser() async {
+  void signUpUser() async {
     // set loading to true
     setState(() {
       _isLoading = true;
     });
 
     // signup user using our authmethodds
-    String res = await AuthMethods().loginUser(
+    String res = await AuthMethods().signUpUser(
       email: _email.text,
       password: _password.text,
+      phone_number: _phonenumber.text,
     );
     // if string returned is sucess, user has been created
     if (res == "sucess") {
@@ -55,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // );
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => DefaultPageScreen(),
+            builder: (context) => SettingInfo(),
           ),
           (route) => false);
     } else {
@@ -99,8 +104,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // Container(
+            //   padding: EdgeInsets.symmetric(horizontal: 30),
+            //   margin: EdgeInsets.symmetric(horizontal: 30),
+            //   decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     border: Border.all(
+            //       color: Color(0xFF393939),
+            //     ),
+            //     borderRadius: BorderRadius.circular(10),
+            //   ),
+            //   child: TextFieldInput(
+            //     hintText: 'Enter Your Full Name ',
+            //     textEditingController: _fullname,
+            //     textInputType: TextInputType.number,
+            //   ),
+            // ),
+            // password
             SizedBox(
-              height: 50,
+              height: 15,
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
@@ -114,13 +139,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextFieldInput(
-                hintText: 'Enter Your Email',
+                hintText: 'Enter Your Email ',
                 textEditingController: _email,
                 textInputType: TextInputType.text,
               ),
             ),
+            //phone number
             SizedBox(
-              height: 20,
+              height: 15,
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
@@ -134,20 +160,60 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextFieldInput(
-                hintText: 'Enter Your Password',
+                hintText: 'Enter Your password',
                 textEditingController: _password,
                 textInputType: TextInputType.text,
                 isPass: true,
               ),
             ),
+            //full name
             SizedBox(
-              height: 20,
+              height: 15,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Color(0xFF393939),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFieldInput(
+                hintText: 'Enter Your Phone Number',
+                textEditingController: _phonenumber,
+                textInputType: TextInputType.number,
+              ),
+            ),
+            //adress
+            SizedBox(
+              height: 15,
+            ),
+            // Container(
+            //   padding: EdgeInsets.symmetric(horizontal: 30),
+            //   margin: EdgeInsets.symmetric(horizontal: 30),
+            //   decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     border: Border.all(
+            //       color: Color(0xFF393939),
+            //       width: 1,
+            //     ),
+            //     borderRadius: BorderRadius.circular(10),
+            //   ),
+            //   child: TextFieldInput(
+            //     hintText: 'Enter Your mobile Number',
+            //     textEditingController: _phonenumber,
+            //     textInputType: TextInputType.number,
+            //   ),
+            // ),
+            SizedBox(
+              height: 10,
             ),
             InkWell(
-              onTap: loginuser,
+              onTap: signUpUser,
               child: Container(
-                //   padding: EdgeInsets.symmetric(horizontal: 30),
-                // margin: EdgeInsets.symmetric(horizontal: 30),
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: 52,
                 decoration: BoxDecoration(
@@ -161,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Center(
                   child: !_isLoading
                       ? Text(
-                          'Login',
+                          'Sign Up',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -182,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const SignUpScreen(),
+                  builder: (context) => const LoginScreen(),
                 ),
               ),
               child: Row(
@@ -190,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Container(
                     child: const Text(
-                      'New user ? ',
+                      'Already have an account ? ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: MainGreen,
@@ -198,10 +264,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
-
                   Container(
                     child: const Text(
-                      'Sign up',
+                      'Login',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: MainGreen,
@@ -212,108 +277,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 30,
-            ),
-            Center(
-              child: const Text(
-                'OR',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    // color: MainGreen,
-                    fontFamily: 'Poppins',
-                    decoration: TextDecoration.none),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.43,
-                  height: 45,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color(0xFF393939),
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 26,
-                        width: 26,
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        // padding: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          // color: MainGreen,
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/google.png',
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'Log in with ',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            decoration: TextDecoration.none),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-                //fb
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.43,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color(0xFF393939),
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 26,
-                        width: 26,
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        // padding: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          // color: MainGreen,
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/images/fb.png',
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'Log in with ',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            decoration: TextDecoration.none),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
           ],
         ),
       ),

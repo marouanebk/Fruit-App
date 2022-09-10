@@ -27,13 +27,18 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cloud_firestore: ^3.4.7
   cupertino_icons: ^1.0.2
   dots_indicator: ^2.1.0
+  firebase_auth: ^3.8.0
+  firebase_core: ^1.22.0
+  firebase_storage: ^10.3.8
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
   loading_gifs: ^0.3.0
   persistent_bottom_nav_bar: ^4.0.2
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -60,7 +65,11 @@ flutter:
     - assets/images/google.png
     - assets/images/fb.png
     - assets/images/fruit/strawberry.jpg
-    # - assets/images/startup3.png
+    - assets/images/fruit/Grapes.png
+
+    - assets/images/vegetable/Brocolli.png
+    - assets/images/vegetable/Anjeer.png
+    - assets/images/vegetable/Onion.png
     # - assets/images/startup3.png
     # - assets\images\startup1.png
 
