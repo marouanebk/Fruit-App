@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fruit_app/global%20variables/colors.dart';
+import 'package:fruit_app/screens/home/food%20types/Fruits.dart';
+import 'package:fruit_app/screens/home/food%20types/Vegetables.dart';
+import 'package:fruit_app/screens/home/food%20types/dryFruits.dart';
 import 'package:fruit_app/widgets/itemCrad.dart';
 
 class HomeScreenView extends StatefulWidget {
@@ -14,17 +17,36 @@ class HomeScreenView extends StatefulWidget {
 }
 
 class _HomeScreenViewState extends State<HomeScreenView> {
+  int _page = 0;
+  late PageController pageController;
+
+  get homeScreenItems => null; // for tabs animation
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      _page = page;
+    });
+  }
+
+  void navigationTapped(int page) {
+    //Animating Page
+    pageController.jumpToPage(page);
+  }
+
   @override
   Widget build(BuildContext context) {
-    var _pageControler = 1;
-
-    void navigationTapped(int page) {
-      setState(() {
-        _pageControler = page;
-      });
-      // print(page);
-    }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -158,9 +180,9 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                             margin: EdgeInsets.only(right: 50),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: (_pageControler == 2)
-                                  ? Color(0xFFCC7D00)
-                                  : Colors.white,
+                              // color: (_pageControler == 2)
+                              //     ? Color(0xFFCC7D00)
+                              //     : Colors.white,
 
                               // color: Color(0xFFCC7D00),
                             ),
@@ -182,280 +204,20 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     ),
                   ],
                 ),
+                FruitsScreen(),
+                // PageView(
+                //   children: [
+                //     VegetablesScreen(),
+                //     FruitsScreen(),
+                //     DryFruitsScreen(),
+                //   ],
+
+                //   // children: homeScreenItems,
+                //   controller: pageController,
+                //   // onPageChanged: onPageChanged,
+                // ),
                 //row end
                 //Spacing
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //begin fo first item description
-                      Row(
-                        children: [
-                          Text(
-                            'Organic Fruits ',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF141313),
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '        (20% Off)',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF4CA300),
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Pick up from organic farms',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF141313),
-                            fontFamily: 'Poppins',
-                            decoration: TextDecoration.none),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      //begin of second type item discription
-                  
-                      Row(
-                        children: [
-                          Text(
-                            'Organic Fruits ',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF141313),
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '        (20% Off)',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF4CA300),
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Pick up from organic farms',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF141313),
-                            fontFamily: 'Poppins',
-                            decoration: TextDecoration.none),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      //third row 
-                       Row(
-                        children: [
-                          Text(
-                            'Organic Fruits ',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF141313),
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            '        (20% Off)',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF4CA300),
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Pick up from organic farms',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF141313),
-                            fontFamily: 'Poppins',
-                            decoration: TextDecoration.none),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ItemCard(
-                              imageLink: 'assets/images/fruit/strawberry.jpg',
-                              name: 'Strawberry',
-                              isLiked: false,
-                              rating: 4,
-                              price: 300,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),

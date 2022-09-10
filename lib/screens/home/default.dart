@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fruit_app/global%20variables/colors.dart';
+import 'package:fruit_app/screens/home/Favorites.dart';
 import 'package:fruit_app/screens/home/HomeScreenView.dart';
 import 'package:fruit_app/screens/home/ProfileScreenView.dart';
+import 'package:fruit_app/screens/home/ShoppingCard.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class DefaultPageScreen extends StatefulWidget {
@@ -20,8 +22,8 @@ class _DefaultPageScreenState extends State<DefaultPageScreen> {
   List<Widget> _buildScreens() {
     return [
       HomeScreenView(),
-      ProfileScreenView(),
-      ProfileScreenView(),
+      ShoppingCart(),
+      FavoritesScreen(),
       ProfileScreenView(),
 
       // MainScreen(),

@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:fruit_app/screens/profile%20screens/widgets/order_item_card.dart';
 
 import '../../global variables/colors.dart';
 
-class OrdersScreen extends StatelessWidget {
-  const OrdersScreen({Key? key}) : super(key: key);
+class ShoppingCart extends StatelessWidget {
+  const ShoppingCart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +22,14 @@ class OrdersScreen extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                    Icons.arrow_back,
+                    Icons.arrow_back_ios,
                     color: Colors.white,
                   ),
-                  SizedBox(
-                    width: 5,
-                  ),
+                  // SizedBox(
+                  //   width: 5,
+                  // ),
                   Text(
-                    'My Orders',
+                    'Shopping Cart',
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
@@ -42,9 +41,27 @@ class OrdersScreen extends StatelessWidget {
                 ],
               ),
             ),
-            OrderItemCard(image: 'assets/images/vegetable/Brocolli.png', name: "Broccoli",),
-            OrderItemCard(image: 'assets/images/vegetable/Onion.png', name: "Onion",),
-            OrderItemCard(image: 'assets/images/vegetable/Anjeer.png', name: "Anjeer",),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(left: 20),
+              height: 50,
+              color: Colors.red,
+              child: Row(
+                children: [
+                  Icon(Icons.location_on),
+                  Text(
+                    ' 440001  Nagpur ,Maharashtra',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontFamily: 'Poppins',
+                        decoration: TextDecoration.none),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
