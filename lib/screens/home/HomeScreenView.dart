@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -205,6 +206,39 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                   ],
                 ),
                 FruitsScreen(),
+                // StreamBuilder(
+                //   stream: FirebaseFirestore.instance
+                //       .collection('posts')
+                //       .snapshots(),
+                //   builder: (context,
+                //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                //           snapshot) {
+                //     if (snapshot.connectionState == ConnectionState.waiting) {
+                //       return const Center(
+                //         child: CircularProgressIndicator(),
+                //       );
+                //     }
+                //     return FruitsScreen();
+                    
+                //     // ListView.builder(
+                //     //   itemCount: snapshot.data!.docs.length,
+                //     //   itemBuilder: (ctx, index) => 
+                //     //   FruitsScreen(),
+                      
+                      
+                //       // Container(
+                //       //   // margin: EdgeInsets.symmetric(
+                //       //   //   horizontal: width > webScreenSize ? width * 0.3 : 0,
+                //       //   //   vertical: width > webScreenSize ? 15 : 0,
+                //       //   // ),
+                //       //   child: FruitsScreen(
+                //       //     // snap: snapshot.data!.docs[index].data(),
+                //       //   ),
+                //       // ),
+                //     // );
+                //   },
+                // ),
+                // FruitsScreen(),
                 // PageView(
                 //   children: [
                 //     VegetablesScreen(),

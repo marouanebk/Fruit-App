@@ -130,9 +130,11 @@ class ProfileScreenView extends StatelessWidget {
             GestureDetector(
               onTap: () async {
                 await AuthMethods().signOut();
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
-                ));
+                Navigator.of(context, rootNavigator: true).push(
+                  MaterialPageRoute(
+                    builder: (_) => LoginScreen(),
+                  ),
+                );
               },
               child: Container(
                 width: double.infinity,
