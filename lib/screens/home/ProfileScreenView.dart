@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -8,8 +10,36 @@ import 'package:fruit_app/screens/profile%20screens/widgets/profile_item_card.da
 import '../../resources/auth_methods.dart';
 import '../profile screens/orders.dart';
 
-class ProfileScreenView extends StatelessWidget {
+class ProfileScreenView extends StatefulWidget {
   const ProfileScreenView({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreenView> createState() => _ProfileScreenViewState();
+}
+
+class _ProfileScreenViewState extends State<ProfileScreenView> {
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  var userData = {};
+
+  //            final userSnap = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(uid)
+  //         .get();
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    try {
+      var userSnap =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      userData = userSnap.data()!;
+      print(userData);
+      setState(() {});
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +94,7 @@ class ProfileScreenView extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "Manish Chutake",
+                      userData['full_name'],
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -77,7 +107,7 @@ class ProfileScreenView extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      "manishuxuid@gmail.com",
+                      userData['email'],
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.normal,

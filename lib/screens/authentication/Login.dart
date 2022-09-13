@@ -7,6 +7,7 @@ import 'package:fruit_app/screens/home/default.dart';
 import 'package:fruit_app/widgets/text_field_nput.dart';
 
 import '../../resources/auth_methods.dart';
+import '../../resources/firebase_methods.dart';
 import '../../utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -47,7 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       // navigate to the home screen
       // navigate to the home screen
-      print('here');
       // Navigator.of(context).push(
       //   MaterialPageRoute(
       //     builder: (context) => const SettingInfo()
@@ -65,6 +65,12 @@ class _LoginScreenState extends State<LoginScreen> {
       // show the error
       showSnackBar(context, res);
     }
+  }
+
+  void uploadFruit() async {
+    String res = await FireStoreMethods().uploadFruit();
+
+    print(res);
   }
 
   @override
@@ -144,7 +150,9 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             InkWell(
+              // onTap: uploadFruit,
               onTap: loginuser,
+
               child: Container(
                 //   padding: EdgeInsets.symmetric(horizontal: 30),
                 // margin: EdgeInsets.symmetric(horizontal: 30),
@@ -198,7 +206,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
-
                   Container(
                     child: const Text(
                       'Sign up',

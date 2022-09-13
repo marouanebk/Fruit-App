@@ -1,9 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class ShoppingCardItem extends StatelessWidget {
-  const ShoppingCardItem({super.key});
+class ShoppingCardItem extends StatefulWidget {
+  final  id;
+  const ShoppingCardItem({super.key, required this.id});
+
+  @override
+  State<ShoppingCardItem> createState() => _ShoppingCardItemState();
+}
+
+class _ShoppingCardItemState extends State<ShoppingCardItem> {
+  var snap = {};
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+
+    try {
+      // widget.id = widget.id.split(',')[0].substring(1).trim();
+      var userSnap =
+          await FirebaseFirestore.instance.collection('fruits').doc(widget.id).get();
+      snap = userSnap.data()!;
+      setState(() {});
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +53,8 @@ class ShoppingCardItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               color: Colors.white,
-              image: const DecorationImage(
-                  image: AssetImage('assets/images/fruit/Grapes.png'),
+              image: DecorationImage(
+                  image: NetworkImage(snap['photoUrl']!),
                   fit: BoxFit.cover),
             ),
           ),
@@ -45,8 +70,8 @@ class ShoppingCardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Grapes',
+                   Text(
+                    snap['name'],
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
@@ -55,25 +80,25 @@ class ShoppingCardItem extends StatelessWidget {
                         decoration: TextDecoration.none),
                     textAlign: TextAlign.center,
                   ),
-                  const Text(
-                    'RS 40 Saves',
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xFF69A03A),
-                        fontFamily: 'Poppins',
-                        decoration: TextDecoration.none),
-                    textAlign: TextAlign.center,
-                  ),
+                  // const Text(
+                  //   'RS 40 Saves',
+                  //   style: TextStyle(
+                  //       fontSize: 10,
+                  //       fontWeight: FontWeight.normal,
+                  //       color: Color(0xFF69A03A),
+                  //       fontFamily: 'Poppins',
+                  //       decoration: TextDecoration.none),
+                  //   textAlign: TextAlign.center,
+                  // ),
                   Container(
-                      padding: const EdgeInsets.only(left: 120),
+                      padding: const EdgeInsets.only(left: 140),
                       alignment: Alignment.centerRight,
                       child: const Icon(Icons.restore_from_trash)),
                 ],
               ),
               // SizedBox(height: 5,),
               const Text(
-                'Rs 190',
+                "",
                 style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.normal,
@@ -82,8 +107,8 @@ class ShoppingCardItem extends StatelessWidget {
                     decoration: TextDecoration.none),
                 textAlign: TextAlign.center,
               ),
-              const Text(
-                'Rs 150',
+              Text(
+                'Rs ${snap['price']}',
                 style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.normal,

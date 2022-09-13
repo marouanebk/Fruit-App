@@ -8,7 +8,7 @@ class Fruit {
   final String subType;
   final String name;
   final String description;
-  final Int price;
+  final int price;
   final String photoUrl;
   final String photoBg;
   final List Nutrions;
@@ -50,5 +50,6 @@ class Fruit {
         "price": price,
         "photoBg": photoBg,
         "Nutrions": Nutrions,
+        "name": name,
       };
 }

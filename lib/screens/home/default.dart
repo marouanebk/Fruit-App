@@ -44,6 +44,19 @@ class _DefaultPageScreenState extends State<DefaultPageScreen> {
         title: ("Shopping cart"),
         activeColorPrimary: MainGreen,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        // routeAndNavigatorSettings: RouteAndNavigatorSettings(),
+        // routeAndNavigatorSettings: RouteAndNavigatorSettings.
+        // : Navigator.of(context, rootNavigator: true).push(
+        //       MaterialPageRoute(
+        //         builder: (_) => ShoppingCart(),
+        //       ),
+        //     ),
+        // onSelectedTabPressWhenNoScreensPushed: Navigator.of(context, rootNavigator: true).push(
+        //       MaterialPageRoute(
+        //         builder: (_) => ShoppingCart(),
+        //       ),
+        //     ),
+        
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.heart),

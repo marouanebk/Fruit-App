@@ -63,12 +63,14 @@ class AuthMethods {
     return res;
   }
 
+////// Update user         
+///
+///
     Future<String> updateUser({
     required String adress,
     required String full_name,
   }) async {
     String res = 'some error occured';
-// || file!= null
     try {
       if (
           adress.isNotEmpty ||
@@ -78,13 +80,11 @@ class AuthMethods {
 
 
              var uid  =  FirebaseAuth.instance.currentUser!.uid;
-                          print('82');
 
              var userSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
           .get();
-          print('here');
 
             
 

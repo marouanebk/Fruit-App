@@ -7,18 +7,18 @@ import 'package:fruit_app/widgets/itemDetail.dart';
 
 class ItemCard extends StatefulWidget {
   final snap;
-  final imageLink;
-  final double rating;
-  final price;
-  final isLiked;
-  final name;
+  // final imageLink;
+  // final double rating;
+  // final price;
+  // final isLiked;
+  // final name;
   const ItemCard(
       {Key? key,
-      required this.imageLink,
-      required this.rating,
-      required this.price,
-      required this.isLiked,
-      required this.name,
+      // required this.imageLink,
+      // required this.rating,
+      // required this.price,
+      // required this.isLiked,
+      // required this.name,
       required this.snap})
       : super(key: key);
 

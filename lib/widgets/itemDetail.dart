@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fruit_app/global%20variables/colors.dart';
+import 'package:fruit_app/resources/firebase_methods.dart';
 
 class ItemDetailCard extends StatefulWidget {
   final snap;
@@ -13,6 +15,23 @@ class ItemDetailCard extends StatefulWidget {
 }
 
 class _ItemDetailCardState extends State<ItemDetailCard> {
+  void addToCart() async {
+    print(FirebaseAuth.instance.currentUser!.uid);
+
+    String res = await FireStoreMethods().addItemToCart(
+      userUid: FirebaseAuth.instance.currentUser!.uid,
+      itemId: widget.snap['uid'],
+    );
+
+    print(res);
+  }
+
+  void uploadFruit() async {
+    String res = await FireStoreMethods().uploadFruit();
+
+    print(res);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +73,10 @@ class _ItemDetailCardState extends State<ItemDetailCard> {
                 borderRadius: BorderRadius.circular(12),
                 // color: Colors.green,
                 image: DecorationImage(
-                    // image: AssetImage('assets/images/fruit/Grapes.png'),
-                    image: NetworkImage(widget.snap['photoBg']),
-                    fit: BoxFit.cover),
+                  // image: AssetImage('assets/images/fruit/Grapes.png'),
+                  image: NetworkImage(widget.snap['photoBg']),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Container(
@@ -103,7 +123,7 @@ class _ItemDetailCardState extends State<ItemDetailCard> {
                   const SizedBox(
                     height: 15,
                   ),
-                  for (var i in widget.snap['Nutrition'])
+                  for (var i in widget.snap['Nutrions'])
                     Column(
                       children: [
                         Row(
@@ -164,29 +184,34 @@ class _ItemDetailCardState extends State<ItemDetailCard> {
                             decoration: TextDecoration.none),
                         textAlign: TextAlign.center,
                       ),
-                      Container(
-                        alignment: Alignment.bottomRight,
-                        margin: const EdgeInsets.only(left: 95),
-                        width: 148,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: MainGreen,
-                          border: Border.all(
-                            color: const Color(0xFF393939),
-                            width: 1,
+                      InkWell(
+                        onTap: addToCart,
+                        // onTap: uploadFruit,
+
+                        child: Container(
+                          alignment: Alignment.bottomRight,
+                          margin: const EdgeInsets.only(left: 95),
+                          width: 148,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: MainGreen,
+                            border: Border.all(
+                              color: const Color(0xFF393939),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Buy Now',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
+                          child: const Center(
+                            child: Text(
+                              'Buy Now',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  decoration: TextDecoration.none),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),

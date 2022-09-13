@@ -98,11 +98,11 @@ class _FruitsScreenState extends State<FruitsScreen> {
                       children: [
                         ItemCard(
                           snap: snapshot.data!.docs[index].data(),
-                          imageLink: snapshot.data!.docs[index].data()['photoUrl'],
-                          name: snapshot.data!.docs[index].data()['name'],
-                          isLiked: false,
-                          rating: 4,
-                          price: snapshot.data!.docs[index].data()['price'],
+                          // imageLink: snapshot.data!.docs[index].data()['photoUrl'],
+                          // name: snapshot.data!.docs[index].data()['name'],
+                          // isLiked: false,
+                          // rating: 4,
+                          // price: snapshot.data!.docs[index].data()['price'],
                         ),
                         const SizedBox(
                           width: 10,
