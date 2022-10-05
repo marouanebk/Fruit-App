@@ -8,6 +8,7 @@ import 'package:fruit_app/global%20variables/colors.dart';
 import 'package:fruit_app/screens/home/food%20types/Fruits.dart';
 import 'package:fruit_app/screens/home/food%20types/Vegetables.dart';
 import 'package:fruit_app/screens/home/food%20types/dryFruits.dart';
+import 'package:fruit_app/screens/home/food%20types/foodtypeCard.dart';
 import 'package:fruit_app/widgets/itemCrad.dart';
 
 class HomeScreenView extends StatefulWidget {
@@ -120,7 +121,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
 
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Color(0xFFCC7D00),
+                              // color: Color(0xFFCC7D00),
                             ),
                             child: Center(
                               child: Text(
@@ -177,15 +178,9 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                           child: Container(
                             height: 25,
                             width: 83,
-                            // padding: EdgeInsets.all(12),
                             margin: EdgeInsets.only(right: 50),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              // color: (_pageControler == 2)
-                              //     ? Color(0xFFCC7D00)
-                              //     : Colors.white,
-
-                              // color: Color(0xFFCC7D00),
                             ),
                             child: Center(
                               child: Text(
@@ -205,53 +200,23 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     ),
                   ],
                 ),
-                FruitsScreen(),
-                // StreamBuilder(
-                //   stream: FirebaseFirestore.instance
-                //       .collection('posts')
-                //       .snapshots(),
-                //   builder: (context,
-                //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                //           snapshot) {
-                //     if (snapshot.connectionState == ConnectionState.waiting) {
-                //       return const Center(
-                //         child: CircularProgressIndicator(),
-                //       );
-                //     }
-                //     return FruitsScreen();
-                    
-                //     // ListView.builder(
-                //     //   itemCount: snapshot.data!.docs.length,
-                //     //   itemBuilder: (ctx, index) => 
-                //     //   FruitsScreen(),
-                      
-                      
-                //       // Container(
-                //       //   // margin: EdgeInsets.symmetric(
-                //       //   //   horizontal: width > webScreenSize ? width * 0.3 : 0,
-                //       //   //   vertical: width > webScreenSize ? 15 : 0,
-                //       //   // ),
-                //       //   child: FruitsScreen(
-                //       //     // snap: snapshot.data!.docs[index].data(),
-                //       //   ),
-                //       // ),
-                //     // );
-                //   },
-                // ),
+                SizedBox(height: 10,),
                 // FruitsScreen(),
-                // PageView(
-                //   children: [
-                //     VegetablesScreen(),
-                //     FruitsScreen(),
-                //     DryFruitsScreen(),
-                //   ],
-
-                //   // children: homeScreenItems,
-                //   controller: pageController,
-                //   // onPageChanged: onPageChanged,
-                // ),
-                //row end
-                //Spacing
+                FruitItemCard(
+                    title: 'Organic Fruits',
+                    subTitle: 'organic Fruits',
+                    type: 'Fruits',
+                    subtype: 'vegeta'),
+                FruitItemCard(
+                    title: 'Organic Fruits',
+                    subTitle: 'organic Fruits',
+                    type: 'Fruits',
+                    subtype: 'vegeta'),
+                FruitItemCard(
+                    title: 'Organic Fruits',
+                    subTitle: 'organic Fruits',
+                    type: 'Fruits',
+                    subtype: 'vegeta')
               ],
             ),
           ),

@@ -21,7 +21,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
   var userData = {};
   var total = 0;
   bool isLoading = false;
-  bool dataExi = true;
+  bool dataExi = false;
+  List items = [];
 
   @override
   void initState() {
@@ -42,40 +43,33 @@ class _ShoppingCartState extends State<ShoppingCart> {
       var userSnap =
           await FirebaseFirestore.instance.collection('carts').doc(uid).get();
       userData = userSnap.data()!;
-      print(userData['items'][0]);
-      // var map = userData['itemo'];
-      // print('user data');
-      // print(userData['itemo']);
-      // for (var j in userData['itemo']) {
 
-      //   print(j.values.toString().split(',')[0].substring(1));
-      //   print('hello');
-      // }
+      print(userData['items'].isNotEmpty);
 
-      // for (var k in userData['itemo']) {
-      //   print("key : $k, value : ${userData["itemo"]}");
-      // }
-      if (userData['items'][0].toString() != '') {
-        print('null valus');
-        setState(() {
-          dataExi = false;
-        });
-      } else {
-        print('null valus');
+      if (userData['items'].isNotEmpty) {
+        print('other condition');
 
         for (var i in userData['items']) {
           var snapItem = await FirebaseFirestore.instance
               .collection('fruits')
               .doc(i)
               .get();
+          // items.add(snapItem);
           // print(snapItem);
+
+          
           var snap = snapItem.data()!['price'];
           // print(snap);
           temp += int.parse(snap.toString());
         }
         total = temp;
-
+        dataExi = true;
         setState(() {});
+      } else {
+        // print('null valus');
+        setState(() {
+          dataExi = false;
+        });
       }
     } catch (e) {}
     setState(() {
@@ -176,25 +170,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   ),
                   // for (var i in userData['items'])
 
-                  if (!dataExi)
-                    for (var i in userData['items']) ShoppingCardItem(id: i)
-                  else
-                    Container(),
+                  if (dataExi)
+                    for (var i in userData['items']) ShoppingCardItem(id: i),
 
-                  // (for (var i in userData['items']) ShoppingCardItem(id: i) )
+                  // if (dataExi)
+                  //   for (var i in items) ShoppingCardItem(id: i),
 
-                  //  for (var j in userData['itemo']) ShoppingCardItem(id: j.split(',')[0].substring(1).trim()),
-
-                  // for (var j in userData['itemo'])
-                  //   ShoppingCardItem(id: j),
-
-                  //        {
-
-                  //   print(j.values.toString().split(',')[0].substring(1));
-                  //   print('hello');
-                  // }
-
-                  // ShoppingCardItem(),
                   Container(
                     width: double.infinity,
                     padding:
@@ -247,7 +228,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                 ),
                                 child: const Center(
                                   child: Text(
-                                    'Buy Now',
+                                    'Place Order',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,

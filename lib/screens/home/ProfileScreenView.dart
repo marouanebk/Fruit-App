@@ -20,6 +20,7 @@ class ProfileScreenView extends StatefulWidget {
 class _ProfileScreenViewState extends State<ProfileScreenView> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   var userData = {};
+  bool isLoading = false;
 
   //            final userSnap = await FirebaseFirestore.instance
   //         .collection('users')
@@ -32,6 +33,9 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   }
 
   getData() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       var userSnap =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
@@ -39,11 +43,18 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
       print(userData);
       setState(() {});
     } catch (e) {}
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        :Scaffold(
       body: SafeArea(
         child: Column(
           children: [

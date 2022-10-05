@@ -5,18 +5,24 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import '../../../widgets/itemCrad.dart';
 
-class FruitsScreen extends StatefulWidget {
-  final tiltle;
-  final subTitle; 
-  final type; 
-  final subtype; 
-  const FruitsScreen({Key? key, this.tiltle,  this.subTitle, this.type, this.subtype}) : super(key: key);
+class FruitItemCard extends StatefulWidget {
+  final title;
+  final subTitle;
+  final type;
+  final subtype;
+  const FruitItemCard(
+      {Key? key,
+      required this.title,
+      required this.subTitle,
+      required this.type,
+      required this.subtype})
+      : super(key: key);
 
   @override
-  State<FruitsScreen> createState() => _FruitsScreenState();
+  State<FruitItemCard> createState() => _FruitItemCardState();
 }
 
-class _FruitsScreenState extends State<FruitsScreen> {
+class _FruitItemCardState extends State<FruitItemCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,14 +31,11 @@ class _FruitsScreenState extends State<FruitsScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 20,
-          ),
           //begin fo first item description
           Row(
             children: [
-              const Text(
-                'Organic Fruits ',
+              Text(
+                "${widget.title}",
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
@@ -56,8 +59,8 @@ class _FruitsScreenState extends State<FruitsScreen> {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            'Pick up from organic farms',
+          Text(
+            'Pick up from ${widget.subTitle}',
             style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
@@ -72,7 +75,8 @@ class _FruitsScreenState extends State<FruitsScreen> {
           StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('fruits')
-                .where('subType', isEqualTo: 'vegeta')
+                .where('subType', isEqualTo: "${widget.subtype}")
+                // .where('subType', isEqualTo: "${widget.type}")
                 .snapshots(),
             builder: (context,
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -82,7 +86,7 @@ class _FruitsScreenState extends State<FruitsScreen> {
                 );
               }
               return Container(
-                height: 300,
+                height: 230,
                 width: double.infinity,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -97,9 +101,6 @@ class _FruitsScreenState extends State<FruitsScreen> {
                         ItemCard(
                           snap: snapshot.data!.docs[index].data(),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
                       ],
                     ),
                   ),
@@ -110,9 +111,6 @@ class _FruitsScreenState extends State<FruitsScreen> {
             },
           ),
 
-          const SizedBox(
-            height: 10,
-          ),
           //Mixed Friot Pack
 
           //Stone Fruits Pack

@@ -7,20 +7,8 @@ import 'package:fruit_app/widgets/itemDetail.dart';
 
 class ItemCard extends StatefulWidget {
   final snap;
-  // final imageLink;
-  // final double rating;
-  // final price;
-  // final isLiked;
-  // final name;
-  const ItemCard(
-      {Key? key,
-      // required this.imageLink,
-      // required this.rating,
-      // required this.price,
-      // required this.isLiked,
-      // required this.name,
-      required this.snap})
-      : super(key: key);
+
+  const ItemCard({Key? key, required this.snap}) : super(key: key);
 
   @override
   State<ItemCard> createState() => _ItemCardState();
@@ -34,7 +22,6 @@ class _ItemCardState extends State<ItemCard> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // SizedBox(height: 20,),
           GestureDetector(
             // onTap:() =>             Navigator.push(
             //     context,
@@ -44,7 +31,7 @@ class _ItemCardState extends State<ItemCard> {
             // onTap: () => Navigator.pushAndRemoveUntil(context,  (route) => false),
             onTap: () => Navigator.of(context, rootNavigator: true).push(
               MaterialPageRoute(
-                builder: (_) => ItemDetailCard(snap : widget.snap),
+                builder: (_) => ItemDetailCard(snap: widget.snap),
               ),
             ),
             child: Container(
@@ -59,17 +46,6 @@ class _ItemCardState extends State<ItemCard> {
                     // image: AssetImage(widget.imageLink!),
                     ),
               ),
-              // child: Container(
-              //   height: 10,
-              //   width: 10,
-              //   decoration:  BoxDecoration(
-              //     color: Colors.green,
-              //     borderRadius:  BorderRadius.only(
-              //       topLeft:  Radius.circular(40.0),
-              //       topRight:  Radius.circular(40.0),
-              //     ),
-              //   ),
-              // ),
             ),
           ),
           SizedBox(
