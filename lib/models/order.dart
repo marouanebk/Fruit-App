@@ -6,6 +6,7 @@ class Order {
   final String adress;
   final String full_name;
   final int price;
+  final DateTime orderDate;
 
   final List items;
 
@@ -16,6 +17,7 @@ class Order {
     required this.full_name,
     required this.items,
     required this.price,
+    required this.orderDate,
   });
 
   static Order fromSnap(DocumentSnapshot snap) {
@@ -28,6 +30,7 @@ class Order {
       adress: snapshot["adress"],
       items: snapshot["items"],
       price: snapshot["price"],
+      orderDate: snapshot["orderDate"],
     );
   }
 
@@ -38,5 +41,6 @@ class Order {
         "items": items,
         "adress": adress,
         "price": price,
+        "orderDate":orderDate,
       };
 }

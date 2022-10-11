@@ -36,7 +36,8 @@ class _ItemCardState extends State<ItemCard> {
             ),
             child: Container(
               height: 143,
-              width: 118,
+              //118
+              width: 125 ,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.white,

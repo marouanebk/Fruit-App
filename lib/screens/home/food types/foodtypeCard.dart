@@ -60,7 +60,7 @@ class _FruitItemCardState extends State<FruitItemCard> {
             height: 10,
           ),
           Text(
-            'Pick up from ${widget.subTitle}',
+            '${widget.subTitle}',
             style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
@@ -101,11 +101,13 @@ class _FruitItemCardState extends State<FruitItemCard> {
                         ItemCard(
                           snap: snapshot.data!.docs[index].data(),
                         ),
+                        const SizedBox(
+                          width: 10,
+                        ),
                       ],
                     ),
                   ),
 
-                  // ),
                 ),
               );
             },

@@ -82,7 +82,7 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                               height: 85,
                               width: 85,
                               decoration: BoxDecoration(
-                                  color: Colors.orange, shape: BoxShape.circle),
+                                  color: Colors.white, shape: BoxShape.circle),
                             ),
                           ),
                         ),

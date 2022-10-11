@@ -76,6 +76,7 @@ class FireStoreMethods {
         phone_number: userSnap.data()!['phone_number'].toString(),
         uid: OrderId,
         price: price,
+        orderDate: DateTime.now(),
       );
       _firestore.collection('Orders').doc(OrderId).set(order.toJson());
       res = "success";

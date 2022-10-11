@@ -24,28 +24,28 @@ class _HomeScreenViewState extends State<HomeScreenView> {
 
   get homeScreenItems => null; // for tabs animation
 
-  @override
-  void initState() {
-    super.initState();
-    pageController = PageController();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   pageController = PageController();
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   pageController.dispose();
+  // }
 
-  void onPageChanged(int page) {
-    setState(() {
-      _page = page;
-    });
-  }
+  // void onPageChanged(int page) {
+  //   setState(() {
+  //     _page = page;
+  //   });
+  // }
 
-  void navigationTapped(int page) {
-    //Animating Page
-    pageController.jumpToPage(page);
-  }
+  // void navigationTapped(int page) {
+  //   //Animating Page
+  //   pageController.jumpToPage(page);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +112,19 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
-                          onTap: () => navigationTapped(0),
+                          // onTap: () =>
+                          //     Navigator.of(context, rootNavigator: true).push(
+                          //   MaterialPageRoute(
+                          //     builder: (_) => VegetablesScreen(),
+                          //   ),
+                          // ),
+
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VegetablesScreen()),
+                          ),
+
                           child: Container(
                             height: 25,
                             width: 102,
@@ -144,7 +156,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                       child: Align(
                         alignment: Alignment.center,
                         child: GestureDetector(
-                          onTap: () => navigationTapped(1),
+                          onTap: () => {},
                           child: Container(
                             height: 25,
                             width: 77,
@@ -174,7 +186,16 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
-                          onTap: () => navigationTapped(2),
+                          // onTap: () =>
+                          //     Navigator.of(context, rootNavigator: true).push(
+                          //   MaterialPageRoute(
+                          //     builder: (_) => DryFruitsScreen(),
+                          //   ),
+                          // ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DryFruitsScreen()),
+                          ),
                           child: Container(
                             height: 25,
                             width: 83,
@@ -200,23 +221,30 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 // FruitsScreen(),
                 FruitItemCard(
                     title: 'Organic Fruits',
-                    subTitle: 'organic Fruits',
+                    subTitle: 'Pick up from organic Fruits',
                     type: 'Fruits',
-                    subtype: 'vegeta'),
+                    subtype: 'organic'),
                 FruitItemCard(
-                    title: 'Organic Fruits',
-                    subTitle: 'organic Fruits',
+                    title: 'Multi Fruits Pack',
+                    subTitle: 'Fruit Mix fresh pack',
                     type: 'Fruits',
-                    subtype: 'vegeta'),
+                    subtype: 'mfp'),
                 FruitItemCard(
-                    title: 'Organic Fruits',
-                    subTitle: 'organic Fruits',
+                    title: 'Stone Fruits',
+                    subTitle: 'Fresh Stone Fruits',
                     type: 'Fruits',
-                    subtype: 'vegeta')
+                    subtype: 'sf'),
+                FruitItemCard(
+                    title: 'Melons',
+                    subTitle: 'Fresh Melons Fruits',
+                    type: 'Fruits',
+                    subtype: 'me'),
               ],
             ),
           ),

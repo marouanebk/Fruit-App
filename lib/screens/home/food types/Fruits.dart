@@ -72,7 +72,7 @@ class _FruitsScreenState extends State<FruitsScreen> {
           StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('fruits')
-                .where('subType', isEqualTo: 'vegeta')
+                .where('subType', isEqualTo: 'organic')
                 .snapshots(),
             builder: (context,
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
