@@ -132,7 +132,8 @@ class _DryFruitsScreenState extends State<DryFruitsScreen> {
                           // ),
                           onTap: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => HomeScreenView()),
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreenView()),
                           ),
                           child: Container(
                             height: 25,

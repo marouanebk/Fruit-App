@@ -9,6 +9,8 @@ import 'package:fruit_app/widgets/ShoppingCardItem.dart';
 import '../../global variables/colors.dart';
 import '../../resources/firebase_methods.dart';
 
+import 'dart:developer' as devtools show log;
+
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
 
@@ -23,6 +25,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
   bool isLoading = false;
   bool dataExi = false;
   List items = [];
+  bool FruitsExist = false;
+  bool VegeExist = false;
+  bool DryExist = false;
 
   @override
   void initState() {
@@ -47,7 +52,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       print(userData['items'].isNotEmpty);
 
       if (userData['items'].isNotEmpty) {
-        print('other condition');
+        devtools.log('other condition');
 
         for (var i in userData['items']) {
           var snapItem = await FirebaseFirestore.instance
@@ -57,8 +62,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
           // items.add(snapItem);
           // print(snapItem);
 
-          
           var snap = snapItem.data()!['price'];
+          if (snapItem.data()!['type'] == "Fruits") {
+            FruitsExist = true;
+          } else if (snapItem.data()!['type'] == "Vegetables") {
+            VegeExist = true;
+          } else if (snapItem.data()!['type'] == "DryFruits") {
+            DryExist = true;
+          }
           // print(snap);
           temp += int.parse(snap.toString());
         }
@@ -160,30 +171,75 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       ],
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    height: 32,
-                    color: const Color(0xFFE6E6E6),
-                    child: const Text('Vegetables'),
-                  ),
+
+                  // Container(
+                  //   width: double.infinity,
+                  //   padding:
+                  //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  //   height: 32,
+                  //   color: const Color(0xFFE6E6E6),
+                  //   child: const Text('Vegetables'),
+                  // ),
                   // for (var i in userData['items'])
 
-                  if (dataExi)
-                    for (var i in userData['items']) ShoppingCardItem(id: i),
+                  if (dataExi) ...{
+                    if (FruitsExist)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        height: 32,
+                        color: const Color(0xFFE6E6E6),
+                        child: const Text('Fruits'),
+                      ),
+                    for (var i in userData['items'])
+                      ShoppingCardItem(
+                        id: i,
+                        type: 'Fruits',
+                      )
+                  },
+                  if (VegeExist) ...{
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      height: 32,
+                      color: const Color(0xFFE6E6E6),
+                      child: const Text('Vegetables'),
+                    ),
+                    for (var i in userData['items'])
+                      ShoppingCardItem(
+                        id: i,
+                        type: 'Vegetables',
+                      )
+                  },
+                    if (DryExist) ...{
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        height: 32,
+                        color: const Color(0xFFE6E6E6),
+                        child: const Text('DryFruits'),
+                      ),
+                      for (var i in userData['items'])
+                        ShoppingCardItem(
+                          id: i,
+                          type: 'DryFruits',
+                        )
+                    },
 
                   // if (dataExi)
                   //   for (var i in items) ShoppingCardItem(id: i),
 
-                  Container(
-                    width: double.infinity,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    height: 32,
-                    color: const Color(0xFFE6E6E6),
-                    child: const Text('Fruits'),
-                  ),
+                  // Container(
+                  //   width: double.infinity,
+                  //   padding:
+                  //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  //   height: 32,
+                  //   color: const Color(0xFFE6E6E6),
+                  //   child: const Text('Fruits'),
+                  // ),
                   Expanded(
                     child: Align(
                       alignment: Alignment.bottomLeft,

@@ -4,8 +4,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ShoppingCardItem extends StatefulWidget {
-  final  id;
-  const ShoppingCardItem({super.key, required this.id});
+  final id;
+  final type;
+  const ShoppingCardItem({super.key, required this.id, required this.type});
 
   @override
   State<ShoppingCardItem> createState() => _ShoppingCardItemState();
@@ -13,6 +14,7 @@ class ShoppingCardItem extends StatefulWidget {
 
 class _ShoppingCardItemState extends State<ShoppingCardItem> {
   var snap = {};
+  bool dataExi = false ; 
   @override
   void initState() {
     super.initState();
@@ -20,18 +22,22 @@ class _ShoppingCardItemState extends State<ShoppingCardItem> {
   }
 
   getData() async {
-
     try {
-      // widget.id = widget.id.split(',')[0].substring(1).trim();
-      var userSnap =
-          await FirebaseFirestore.instance.collection('fruits').doc(widget.id).get();
+
+      var userSnap = await FirebaseFirestore.instance
+          .collection('fruits')
+          .doc(widget.id)
+          .get();
+
       snap = userSnap.data()!;
+      if (snap['type'] == widget.type ) dataExi = true ; 
       setState(() {});
     } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
+    if(dataExi)
     return Container(
       width: double.infinity,
       height: 120,
@@ -54,8 +60,7 @@ class _ShoppingCardItemState extends State<ShoppingCardItem> {
               borderRadius: BorderRadius.circular(12),
               color: Colors.white,
               image: DecorationImage(
-                  image: NetworkImage(snap['photoUrl']!),
-                  fit: BoxFit.cover),
+                  image: NetworkImage(snap['photoUrl']!), fit: BoxFit.cover),
             ),
           ),
           const SizedBox(
@@ -70,7 +75,7 @@ class _ShoppingCardItemState extends State<ShoppingCardItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                   Text(
+                  Text(
                     snap['name'],
                     style: TextStyle(
                         fontSize: 14,
@@ -178,5 +183,6 @@ class _ShoppingCardItemState extends State<ShoppingCardItem> {
         ],
       ),
     );
+    return Container();
   }
 }
