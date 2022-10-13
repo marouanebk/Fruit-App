@@ -45,9 +45,12 @@ class _ItemDetailCardState extends State<ItemDetailCard> {
               color: MainGreen,
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(
                     width: 5,

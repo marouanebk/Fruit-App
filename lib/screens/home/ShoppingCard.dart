@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fruit_app/screens/home/order/success.dart';
 import 'package:fruit_app/widgets/ShoppingCardItem.dart';
 
 import '../../global variables/colors.dart';
@@ -23,6 +24,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
   var userData = {};
   var total = 0;
   bool isLoading = false;
+  bool isLoadingOrder = false;
   bool dataExi = false;
   List items = [];
   bool FruitsExist = false;
@@ -89,12 +91,33 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   void confirmOrder() async {
+    // setState(() {
+
+    // });
+    setState(() {
+      isLoadingOrder = true;
+    });
+
     String res = await FireStoreMethods().addOrder(
       Items: userData['items'],
       price: total,
     );
 
-    print(res);
+    if (res == 'success') {
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //     MaterialPageRoute(builder: (context) => OrderConfirmedScreen()),
+      //     (Route<dynamic> route) => false);
+      Navigator.of(context, rootNavigator: true).push(
+        MaterialPageRoute(
+          builder: (_) => OrderConfirmedScreen(),
+        ),
+      );
+    }
+    setState(() {
+      isLoadingOrder = false;
+    });
+
+    // print(res);
   }
 
   @override
@@ -105,114 +128,122 @@ class _ShoppingCartState extends State<ShoppingCart> {
           )
         : Scaffold(
             body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: double.infinity,
-                    color: MainGreen,
-                    child: Row(
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
-                        // SizedBox(
-                        //   width: 5,
-                        // ),
-                        const Text(
-                          'Shopping Cart',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.white,
-                              fontFamily: 'Poppins',
-                              decoration: TextDecoration.none),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await Future.delayed(Duration(seconds: 2));
+                  getData();
+                },
+                color: Colors.white,
+                backgroundColor: Colors.purple,
+                triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: double.infinity,
+                      color: MainGreen,
+                      child: Row(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          ),
+                          // SizedBox(
+                          //   width: 5,
+                          // ),
+                          const Text(
+                            'Shopping Cart',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                                fontFamily: 'Poppins',
+                                decoration: TextDecoration.none),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(left: 20),
-                    height: 50,
-                    // color: Colors.red,
-                    child: Row(
-                      children: [
-                        const Icon(Icons.location_on),
-                        const Text(
-                          ' 440001  Nagpur ,Maharashtra',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                              fontFamily: 'Poppins',
-                              decoration: TextDecoration.none),
-                          textAlign: TextAlign.center,
-                        ),
-                        const Icon(Icons.keyboard_arrow_down),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        const Text(
-                          'Change Adress',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              color: Color(0xFF7089F0),
-                              fontFamily: 'Poppins',
-                              decoration: TextDecoration.none,
-                              textBaseline: TextBaseline.alphabetic),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(left: 20),
+                      height: 50,
+                      // color: Colors.red,
+                      child: Row(
+                        children: [
+                          const Icon(Icons.location_on),
+                          const Text(
+                            ' 440001  Nagpur ,Maharashtra',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
+                                fontFamily: 'Poppins',
+                                decoration: TextDecoration.none),
+                            textAlign: TextAlign.center,
+                          ),
+                          const Icon(Icons.keyboard_arrow_down),
+                          const SizedBox(
+                            width: 25,
+                          ),
+                          const Text(
+                            'Change Adress',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                color: Color(0xFF7089F0),
+                                fontFamily: 'Poppins',
+                                decoration: TextDecoration.none,
+                                textBaseline: TextBaseline.alphabetic),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  // Container(
-                  //   width: double.infinity,
-                  //   padding:
-                  //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  //   height: 32,
-                  //   color: const Color(0xFFE6E6E6),
-                  //   child: const Text('Vegetables'),
-                  // ),
-                  // for (var i in userData['items'])
+                    // Container(
+                    //   width: double.infinity,
+                    //   padding:
+                    //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    //   height: 32,
+                    //   color: const Color(0xFFE6E6E6),
+                    //   child: const Text('Vegetables'),
+                    // ),
+                    // for (var i in userData['items'])
 
-                  if (dataExi) ...{
-                    if (FruitsExist)
+                    if (dataExi) ...{
+                      if (FruitsExist)
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 5),
+                          height: 32,
+                          color: const Color(0xFFE6E6E6),
+                          child: const Text('Fruits'),
+                        ),
+                      for (var i in userData['items'])
+                        ShoppingCardItem(
+                          id: i,
+                          type: 'Fruits',
+                        )
+                    },
+                    if (VegeExist) ...{
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         height: 32,
                         color: const Color(0xFFE6E6E6),
-                        child: const Text('Fruits'),
+                        child: const Text('Vegetables'),
                       ),
-                    for (var i in userData['items'])
-                      ShoppingCardItem(
-                        id: i,
-                        type: 'Fruits',
-                      )
-                  },
-                  if (VegeExist) ...{
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      height: 32,
-                      color: const Color(0xFFE6E6E6),
-                      child: const Text('Vegetables'),
-                    ),
-                    for (var i in userData['items'])
-                      ShoppingCardItem(
-                        id: i,
-                        type: 'Vegetables',
-                      )
-                  },
+                      for (var i in userData['items'])
+                        ShoppingCardItem(
+                          id: i,
+                          type: 'Vegetables',
+                        )
+                    },
                     if (DryExist) ...{
                       Container(
                         width: double.infinity,
@@ -229,80 +260,88 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         )
                     },
 
-                  // if (dataExi)
-                  //   for (var i in items) ShoppingCardItem(id: i),
+                    // if (dataExi)
+                    //   for (var i in items) ShoppingCardItem(id: i),
 
-                  // Container(
-                  //   width: double.infinity,
-                  //   padding:
-                  //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  //   height: 32,
-                  //   color: const Color(0xFFE6E6E6),
-                  //   child: const Text('Fruits'),
-                  // ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        margin: const EdgeInsets.all(30),
-                        child: Row(
-                          children: [
-                            const Text(
-                              "Total :  ",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF393939),
-                                  fontFamily: 'Poppins',
-                                  decoration: TextDecoration.none),
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              "\$ ${total} ",
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF393939),
-                                  fontFamily: 'Poppins',
-                                  decoration: TextDecoration.none),
-                              textAlign: TextAlign.center,
-                            ),
-                            InkWell(
-                              onTap: confirmOrder,
-                              child: Container(
-                                alignment: Alignment.bottomRight,
-                                margin: const EdgeInsets.only(left: 95),
-                                width: 148,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: MainGreen,
-                                  border: Border.all(
-                                    color: const Color(0xFF393939),
-                                    width: 1,
+                    // Container(
+                    //   width: double.infinity,
+                    //   padding:
+                    //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    //   height: 32,
+                    //   color: const Color(0xFFE6E6E6),
+                    //   child: const Text('Fruits'),
+                    // ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          margin: const EdgeInsets.all(30),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "Total :  ",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF393939),
+                                    fontFamily: 'Poppins',
+                                    decoration: TextDecoration.none),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "\$ ${total} ",
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF393939),
+                                    fontFamily: 'Poppins',
+                                    decoration: TextDecoration.none),
+                                textAlign: TextAlign.center,
+                              ),
+                              InkWell(
+                                onTap: confirmOrder,
+                                child: Container(
+                                  alignment: Alignment.bottomRight,
+                                  margin: const EdgeInsets.only(left: 95),
+                                  width: 148,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: MainGreen,
+                                    border: Border.all(
+                                      color: const Color(0xFF393939),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Place Order',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white,
-                                        fontFamily: 'Poppins',
-                                        decoration: TextDecoration.none),
-                                    textAlign: TextAlign.center,
+                                  child: Center(
+                                    child: isLoadingOrder
+                                        ? const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : Text(
+                                            'Place Order',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.white,
+                                                fontFamily: 'Poppins',
+                                                decoration:
+                                                    TextDecoration.none),
+                                            textAlign: TextAlign.center,
+                                          ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  // ShoppingCardItem(i),
-                ],
+                    // ShoppingCardItem(i),
+                  ],
+                ),
               ),
             ),
           );

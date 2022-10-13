@@ -23,6 +23,7 @@ class _ItemCardState extends State<ItemCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
+            
             // onTap:() =>             Navigator.push(
             //     context,
             //     MaterialPageRoute(builder: (context) => ItemDetailCard()),

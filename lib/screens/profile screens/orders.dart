@@ -16,20 +16,23 @@ class OrdersScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               height: MediaQuery.of(context).size.height * 0.05,
               width: double.infinity,
               color: MainGreen,
               child: Row(
                 children: [
-                  Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
-                  Text(
+                  const Text(
                     'My Orders',
                     style: TextStyle(
                         fontSize: 14,
@@ -42,9 +45,18 @@ class OrdersScreen extends StatelessWidget {
                 ],
               ),
             ),
-            OrderItemCard(image: 'assets/images/vegetable/Brocolli.png', name: "Broccoli",),
-            OrderItemCard(image: 'assets/images/vegetable/Onion.png', name: "Onion",),
-            OrderItemCard(image: 'assets/images/vegetable/Anjeer.png', name: "Anjeer",),
+            const OrderItemCard(
+              image: 'assets/images/vegetable/Brocolli.png',
+              name: "Broccoli",
+            ),
+            const OrderItemCard(
+              image: 'assets/images/vegetable/Onion.png',
+              name: "Onion",
+            ),
+            const OrderItemCard(
+              image: 'assets/images/vegetable/Anjeer.png',
+              name: "Anjeer",
+            ),
           ],
         ),
       ),
