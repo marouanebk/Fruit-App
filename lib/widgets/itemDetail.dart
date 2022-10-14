@@ -15,6 +15,8 @@ class ItemDetailCard extends StatefulWidget {
 }
 
 class _ItemDetailCardState extends State<ItemDetailCard> {
+  bool isLoading = false;
+
   void addToCart() async {
     print(FirebaseAuth.instance.currentUser!.uid);
 
@@ -188,7 +190,105 @@ class _ItemDetailCardState extends State<ItemDetailCard> {
                         textAlign: TextAlign.center,
                       ),
                       InkWell(
-                        onTap: addToCart,
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          String res = await FireStoreMethods().addItemToCart(
+                            userUid: FirebaseAuth.instance.currentUser!.uid,
+                            itemId: widget.snap['uid'],
+                          );
+
+                          setState(() {
+                            isLoading = false;
+                          });
+
+                          if (res == 'YES') {
+                            showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    height: 100,
+                                    color: Colors.white,
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                height: 30,
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: MainGreen,
+                                                    width: 3,
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            5.0),
+                                                    child: Icon(
+                                                      Icons.check,
+                                                      size: 15.0,
+                                                      color: MainGreen,
+                                                    )),
+                                              ),
+                                              const Text(
+                                                '   Item added to cart succefully',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.black,
+                                                    fontFamily: 'Poppins',
+                                                    decoration:
+                                                        TextDecoration.none),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                          // ElevatedButton(
+                                          //   child: const Text('Ok'),
+                                          //   onPressed: () =>
+                                          //       Navigator.pop(context),
+                                          // ),
+                                          // GestureDetector(
+                                          //   onTap: () => Navigator.pop(context),
+                                          //   child: Container(
+                                          //     height: 50,
+                                          //     width: 200,
+                                          //     decoration: BoxDecoration(
+                                          //         borderRadius:
+                                          //             BorderRadius.circular(22),
+                                          //         color: MainGreen),
+                                          //     child: Center(
+                                          //       child: Text(
+                                          //         'Home',
+                                          //         style: TextStyle(
+                                          //           color: Colors.white,
+                                          //           fontWeight: FontWeight.w500,
+                                          //           fontSize: 20,
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          }
+                        },
                         // onTap: uploadFruit,
 
                         child: Container(
@@ -204,17 +304,23 @@ class _ItemDetailCardState extends State<ItemDetailCard> {
                             ),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Center(
-                            child: Text(
-                              'Buy Now',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                  fontFamily: 'Poppins',
-                                  decoration: TextDecoration.none),
-                              textAlign: TextAlign.center,
-                            ),
+                          child: Center(
+                            child: isLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    'Buy Now',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        decoration: TextDecoration.none),
+                                    textAlign: TextAlign.center,
+                                  ),
                           ),
                         ),
                       ),

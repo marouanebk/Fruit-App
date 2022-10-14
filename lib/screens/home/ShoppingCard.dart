@@ -127,221 +127,235 @@ class _ShoppingCartState extends State<ShoppingCart> {
             child: CircularProgressIndicator(),
           )
         : Scaffold(
+            // resizeToAvoidBottomInset: true,
             body: SafeArea(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await Future.delayed(Duration(seconds: 2));
+                  devtools.log('refreshing');
+                  // await Future.delayed(Duration(seconds: 2));
                   getData();
                 },
-                color: Colors.white,
-                backgroundColor: Colors.purple,
+                color: MainGreen,
+                backgroundColor: Colors.white,
                 triggerMode: RefreshIndicatorTriggerMode.anywhere,
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      width: double.infinity,
-                      color: MainGreen,
-                      child: Row(
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                          ),
-                          // SizedBox(
-                          //   width: 5,
-                          // ),
-                          const Text(
-                            'Shopping Cart',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(left: 20),
-                      height: 50,
-                      // color: Colors.red,
-                      child: Row(
-                        children: [
-                          const Icon(Icons.location_on),
-                          const Text(
-                            ' 440001  Nagpur ,Maharashtra',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black,
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none),
-                            textAlign: TextAlign.center,
-                          ),
-                          const Icon(Icons.keyboard_arrow_down),
-                          const SizedBox(
-                            width: 25,
-                          ),
-                          const Text(
-                            'Change Adress',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Color(0xFF7089F0),
-                                fontFamily: 'Poppins',
-                                decoration: TextDecoration.none,
-                                textBaseline: TextBaseline.alphabetic),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Container(
-                    //   width: double.infinity,
-                    //   padding:
-                    //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    //   height: 32,
-                    //   color: const Color(0xFFE6E6E6),
-                    //   child: const Text('Vegetables'),
-                    // ),
-                    // for (var i in userData['items'])
-
-                    if (dataExi) ...{
-                      if (FruitsExist)
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 5),
-                          height: 32,
-                          color: const Color(0xFFE6E6E6),
-                          child: const Text('Fruits'),
+                child: Stack(children: [
+                  // ListView(),
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: double.infinity,
+                        color: MainGreen,
+                        child: Row(
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            const Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
+                            // SizedBox(
+                            //   width: 5,
+                            // ),
+                            const Text(
+                              'Shopping Cart',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins',
+                                  decoration: TextDecoration.none),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      for (var i in userData['items'])
-                        ShoppingCardItem(
-                          id: i,
-                          type: 'Fruits',
-                        )
-                    },
-                    if (VegeExist) ...{
+                      ),
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 5),
-                        height: 32,
-                        color: const Color(0xFFE6E6E6),
-                        child: const Text('Vegetables'),
+                        margin: const EdgeInsets.only(left: 20),
+                        height: 50,
+                        // color: Colors.red,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.location_on),
+                            const Text(
+                              ' 440001  Nagpur ,Maharashtra',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black,
+                                  fontFamily: 'Poppins',
+                                  decoration: TextDecoration.none),
+                              textAlign: TextAlign.center,
+                            ),
+                            const Icon(Icons.keyboard_arrow_down),
+                            const SizedBox(
+                              width: 25,
+                            ),
+                            const Text(
+                              'Change Adress',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color(0xFF7089F0),
+                                  fontFamily: 'Poppins',
+                                  decoration: TextDecoration.none,
+                                  textBaseline: TextBaseline.alphabetic),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
                       ),
-                      for (var i in userData['items'])
-                        ShoppingCardItem(
-                          id: i,
-                          type: 'Vegetables',
-                        )
-                    },
-                    if (DryExist) ...{
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 5),
-                        height: 32,
-                        color: const Color(0xFFE6E6E6),
-                        child: const Text('DryFruits'),
+
+                      // Container(
+                      //   width: double.infinity,
+                      //   padding:
+                      //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      //   height: 32,
+                      //   color: const Color(0xFFE6E6E6),
+                      //   child: const Text('Vegetables'),
+                      // ),
+                      // for (var i in userData['items'])
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height*0.65,
+                        child: ListView(
+                          children: [
+                            if (FruitsExist) ...{
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                height: 32,
+                                color: const Color(0xFFE6E6E6),
+                                child: const Text('Fruits'),
+                              ),
+                              for (var i in userData['items'])
+                                ShoppingCardItem(
+                                  id: i,
+                                  type: 'Fruits',
+                                )
+                            },
+
+                            //sized box
+                            if (VegeExist) ...{
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                height: 32,
+                                color: const Color(0xFFE6E6E6),
+                                child: const Text('Vegetables'),
+                              ),
+                              for (var i in userData['items'])
+                                ShoppingCardItem(
+                                  id: i,
+                                  type: 'Vegetables',
+                                )
+                            },
+                            if (DryExist) ...{
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                height: 32,
+                                color: const Color(0xFFE6E6E6),
+                                child: const Text('DryFruits'),
+                              ),
+                              for (var i in userData['items'])
+                                ShoppingCardItem(
+                                  id: i,
+                                  type: 'DryFruits',
+                                )
+                            },
+
+                            // if (dataExi)
+                            //   for (var i in items) ShoppingCardItem(id: i),
+
+                            // Container(
+                            //   width: double.infinity,
+                            //   padding:
+                            //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                            //   height: 32,
+                            //   color: const Color(0xFFE6E6E6),
+                            //   child: const Text('Fruits'),
+                            // ),
+                          ],
+                        ),
                       ),
-                      for (var i in userData['items'])
-                        ShoppingCardItem(
-                          id: i,
-                          type: 'DryFruits',
-                        )
-                    },
-
-                    // if (dataExi)
-                    //   for (var i in items) ShoppingCardItem(id: i),
-
-                    // Container(
-                    //   width: double.infinity,
-                    //   padding:
-                    //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    //   height: 32,
-                    //   color: const Color(0xFFE6E6E6),
-                    //   child: const Text('Fruits'),
-                    // ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          margin: const EdgeInsets.all(30),
-                          child: Row(
-                            children: [
-                              const Text(
-                                "Total :  ",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF393939),
-                                    fontFamily: 'Poppins',
-                                    decoration: TextDecoration.none),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                "\$ ${total} ",
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF393939),
-                                    fontFamily: 'Poppins',
-                                    decoration: TextDecoration.none),
-                                textAlign: TextAlign.center,
-                              ),
-                              InkWell(
-                                onTap: confirmOrder,
-                                child: Container(
-                                  alignment: Alignment.bottomRight,
-                                  margin: const EdgeInsets.only(left: 95),
-                                  width: 148,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: MainGreen,
-                                    border: Border.all(
-                                      color: const Color(0xFF393939),
-                                      width: 1,
+                      // Expanded(
+                      //   child: Align(
+                      //     // alignment: Alignment.bottomCenter,
+                      //     child: 
+                          Container(
+                            height: 60,
+                            margin: const EdgeInsets.symmetric(horizontal : 30),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Total :  ",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF393939),
+                                      fontFamily: 'Poppins',
+                                      decoration: TextDecoration.none),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  "\$ ${total} ",
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFF393939),
+                                      fontFamily: 'Poppins',
+                                      decoration: TextDecoration.none),
+                                  textAlign: TextAlign.center,
+                                ),
+                                InkWell(
+                                  onTap: confirmOrder,
+                                  child: Container(
+                                    alignment: Alignment.bottomRight,
+                                    margin: const EdgeInsets.only(left: 95),
+                                    width: 148,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: MainGreen,
+                                      border: Border.all(
+                                        color: const Color(0xFF393939),
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: isLoadingOrder
-                                        ? const Center(
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        : Text(
-                                            'Place Order',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.normal,
+                                    child: Center(
+                                      child: isLoadingOrder
+                                          ? const Center(
+                                              child: CircularProgressIndicator(
                                                 color: Colors.white,
-                                                fontFamily: 'Poppins',
-                                                decoration:
-                                                    TextDecoration.none),
-                                            textAlign: TextAlign.center,
-                                          ),
+                                              ),
+                                            )
+                                          : Text(
+                                              'Place Order',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white,
+                                                  fontFamily: 'Poppins',
+                                                  decoration:
+                                                      TextDecoration.none),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    // ShoppingCardItem(i),
-                  ],
-                ),
+                      //   // ),
+                      // ),
+                      // ShoppingCardItem(i),
+                    ],
+                  ),
+                ]),
               ),
             ),
           );

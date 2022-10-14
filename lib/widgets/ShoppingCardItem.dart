@@ -75,15 +75,20 @@ class _ShoppingCardItemState extends State<ShoppingCardItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        snap['name'],
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            color: Color(0xFF393939),
-                            fontFamily: 'Poppins',
-                            decoration: TextDecoration.none),
-                        textAlign: TextAlign.center,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(
+                          // textAlign: TextAlign.start,
+
+                          snap['name'],
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xFF393939),
+                              fontFamily: 'Poppins',
+                              decoration: TextDecoration.none),
+                          textAlign: TextAlign.start,
+                        ),
                       ),
                       // const Text(
                       //   'RS 40 Saves',
@@ -95,10 +100,16 @@ class _ShoppingCardItemState extends State<ShoppingCardItem> {
                       //       decoration: TextDecoration.none),
                       //   textAlign: TextAlign.center,
                       // ),
-                      // Container(
-                      //     padding: const EdgeInsets.only(left: 140),
-                      //     alignment: Alignment.centerRight,
-                      //     child: const Icon(Icons.restore_from_trash)),
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Expanded(
+                            // padding: const EdgeInsets.only(left: 50),
+                            // alignment: Alignment.centerRight,
+                            child: Align(
+                                alignment: Alignment.centerRight,
+                                child: const Icon(Icons.restore_from_trash))),
+                      ),
                     ],
                   ),
                 ),

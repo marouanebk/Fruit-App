@@ -1,188 +1,355 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fruit_app/screens/home/order/success.dart';
+import 'package:fruit_app/widgets/ShoppingCardItem.dart';
 
-class ShoppingCardItem extends StatefulWidget {
-  final id;
-  final type;
-  const ShoppingCardItem({super.key, required this.id, required this.type});
+import '../../global variables/colors.dart';
+import '../../resources/firebase_methods.dart';
+
+import 'dart:developer' as devtools show log;
+
+class ShoppingCart extends StatefulWidget {
+  const ShoppingCart({Key? key}) : super(key: key);
 
   @override
-  State<ShoppingCardItem> createState() => _ShoppingCardItemState();
+  State<ShoppingCart> createState() => _ShoppingCartState();
 }
 
-class _ShoppingCardItemState extends State<ShoppingCardItem> {
-  var snap = {};
-  bool dataExi = false ; 
+class _ShoppingCartState extends State<ShoppingCart> {
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  var userData = {};
+  var total = 0;
+  bool isLoading = false;
+  bool isLoadingOrder = false;
+  bool dataExi = false;
+  List items = [];
+  bool FruitsExist = false;
+  bool VegeExist = false;
+  bool DryExist = false;
+
   @override
   void initState() {
     super.initState();
+    // getPrice();
     getData();
+    // getPrice();
   }
 
   getData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // Firestore.instance.collection('tournaments').document(documentId).snapshots()
+    int temp = 0;
     try {
+      var userSnap =
+          await FirebaseFirestore.instance.collection('carts').doc(uid).get();
+      userData = userSnap.data()!;
 
-      var userSnap = await FirebaseFirestore.instance
-          .collection('fruits')
-          .doc(widget.id)
-          .get();
+      print(userData['items'].isNotEmpty);
 
-      snap = userSnap.data()!;
-      if (snap['type'] == widget.type ) dataExi = true ; 
-      setState(() {});
+      if (userData['items'].isNotEmpty) {
+        devtools.log('other condition');
+
+        for (var i in userData['items']) {
+          var snapItem = await FirebaseFirestore.instance
+              .collection('fruits')
+              .doc(i)
+              .get();
+          // items.add(snapItem);
+          // print(snapItem);
+
+          var snap = snapItem.data()!['price'];
+          if (snapItem.data()!['type'] == "Fruits") {
+            FruitsExist = true;
+          } else if (snapItem.data()!['type'] == "Vegetables") {
+            VegeExist = true;
+          } else if (snapItem.data()!['type'] == "DryFruits") {
+            DryExist = true;
+          }
+          // print(snap);
+          temp += int.parse(snap.toString());
+        }
+        total = temp;
+        dataExi = true;
+        setState(() {});
+      } else {
+        // print('null valus');
+        setState(() {
+          dataExi = false;
+        });
+      }
     } catch (e) {}
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void confirmOrder() async {
+    // setState(() {
+
+    // });
+    setState(() {
+      isLoadingOrder = true;
+    });
+
+    String res = await FireStoreMethods().addOrder(
+      Items: userData['items'],
+      price: total,
+    );
+
+    if (res == 'success') {
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //     MaterialPageRoute(builder: (context) => OrderConfirmedScreen()),
+      //     (Route<dynamic> route) => false);
+      Navigator.of(context, rootNavigator: true).push(
+        MaterialPageRoute(
+          builder: (_) => OrderConfirmedScreen(),
+        ),
+      );
+    }
+    setState(() {
+      isLoadingOrder = false;
+    });
+
+    // print(res);
   }
 
   @override
   Widget build(BuildContext context) {
-    if(dataExi)
-    return Container(
-      width: double.infinity,
-      height: 120,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 1,
-            color: Color(0xFFD1D1D1),
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 95,
-            width: 95,
-            // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.white,
-              image: DecorationImage(
-                  image: NetworkImage(snap['photoUrl']!), fit: BoxFit.cover),
-            ),
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    snap['name'],
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xFF393939),
-                        fontFamily: 'Poppins',
-                        decoration: TextDecoration.none),
-                    textAlign: TextAlign.center,
-                  ),
-                  // const Text(
-                  //   'RS 40 Saves',
-                  //   style: TextStyle(
-                  //       fontSize: 10,
-                  //       fontWeight: FontWeight.normal,
-                  //       color: Color(0xFF69A03A),
-                  //       fontFamily: 'Poppins',
-                  //       decoration: TextDecoration.none),
-                  //   textAlign: TextAlign.center,
-                  // ),
-                  Container(
-                      padding: const EdgeInsets.only(left: 140),
-                      alignment: Alignment.centerRight,
-                      child: const Icon(Icons.restore_from_trash)),
-                ],
-              ),
-              // SizedBox(height: 5,),
-              const Text(
-                "",
-                style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: 'Poppins',
-                    decoration: TextDecoration.none),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                'Rs ${snap['price']}',
-                style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    fontFamily: 'Poppins',
-                    decoration: TextDecoration.none),
-                textAlign: TextAlign.center,
-              ),
-
-              // alignment: Alignment.,
-
-              const SizedBox(
-                height: 7,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const SizedBox(
-                    width: 150,
-                  ),
-                  Container(
-                    height: 25,
-                    width: 25,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        width: 3,
-                        color: Color(0xFFD1D1D1),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text('-'),
-                    ),
-                    // child: Icon(Icons.cross),
-                  ),
-                  const Text('   1  '),
-                  Container(
-                    height: 25,
-                    width: 25,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        width: 3,
-                        color: Color(0xFFD1D1D1),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text('+'),
-                    ),
-                    // child: Icon(Icons.cross),
-                  ),
-
-                  // Expanded(
-                  //   child: Align(
-                  //     alignment: Alignment.centerRight,
-                  //     child: Container(
-                  //       height: 27,
-                  //       width: 68,
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              )
-            ],
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
           )
-        ],
-      ),
-    );
-    return Container();
+        : Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    devtools.log('refreshing');
+                    // await Future.delayed(Duration(seconds: 2));
+                    getData();
+                  },
+                  color: MainGreen,
+                  backgroundColor: Colors.white,
+                  triggerMode: RefreshIndicatorTriggerMode.anywhere,
+                  child: Stack(children: [
+                    ListView(),
+                    Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: double.infinity,
+                          color: MainGreen,
+                          child: Row(
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              const Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                              ),
+                              // SizedBox(
+                              //   width: 5,
+                              // ),
+                              const Text(
+                                'Shopping Cart',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
+                                    fontFamily: 'Poppins',
+                                    decoration: TextDecoration.none),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(left: 20),
+                          height: 50,
+                          // color: Colors.red,
+                          child: Row(
+                            children: [
+                              const Icon(Icons.location_on),
+                              const Text(
+                                ' 440001  Nagpur ,Maharashtra',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black,
+                                    fontFamily: 'Poppins',
+                                    decoration: TextDecoration.none),
+                                textAlign: TextAlign.center,
+                              ),
+                              const Icon(Icons.keyboard_arrow_down),
+                              const SizedBox(
+                                width: 25,
+                              ),
+                              const Text(
+                                'Change Adress',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF7089F0),
+                                    fontFamily: 'Poppins',
+                                    decoration: TextDecoration.none,
+                                    textBaseline: TextBaseline.alphabetic),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Container(
+                        //   width: double.infinity,
+                        //   padding:
+                        //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        //   height: 32,
+                        //   color: const Color(0xFFE6E6E6),
+                        //   child: const Text('Vegetables'),
+                        // ),
+                        // for (var i in userData['items'])
+
+                        if (dataExi) ...{
+                          if (FruitsExist)
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              height: 32,
+                              color: const Color(0xFFE6E6E6),
+                              child: const Text('Fruits'),
+                            ),
+                          for (var i in userData['items'])
+                            ShoppingCardItem(
+                              id: i,
+                              type: 'Fruits',
+                            )
+                        },
+                        if (VegeExist) ...{
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            height: 32,
+                            color: const Color(0xFFE6E6E6),
+                            child: const Text('Vegetables'),
+                          ),
+                          for (var i in userData['items'])
+                            ShoppingCardItem(
+                              id: i,
+                              type: 'Vegetables',
+                            )
+                        },
+                        if (DryExist) ...{
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            height: 32,
+                            color: const Color(0xFFE6E6E6),
+                            child: const Text('DryFruits'),
+                          ),
+                          for (var i in userData['items'])
+                            ShoppingCardItem(
+                              id: i,
+                              type: 'DryFruits',
+                            )
+                        },
+
+                        // if (dataExi)
+                        //   for (var i in items) ShoppingCardItem(id: i),
+
+                        // Container(
+                        //   width: double.infinity,
+                        //   padding:
+                        //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        //   height: 32,
+                        //   color: const Color(0xFFE6E6E6),
+                        //   child: const Text('Fruits'),
+                        // ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Container(
+                              margin: const EdgeInsets.all(30),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    "Total :  ",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF393939),
+                                        fontFamily: 'Poppins',
+                                        decoration: TextDecoration.none),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    "\$ ${total} ",
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFF393939),
+                                        fontFamily: 'Poppins',
+                                        decoration: TextDecoration.none),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  InkWell(
+                                    onTap: confirmOrder,
+                                    child: Container(
+                                      alignment: Alignment.bottomRight,
+                                      margin: const EdgeInsets.only(left: 95),
+                                      width: 148,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: MainGreen,
+                                        border: Border.all(
+                                          color: const Color(0xFF393939),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Center(
+                                        child: isLoadingOrder
+                                            ? const Center(
+                                                child: CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            : Text(
+                                                'Place Order',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.normal,
+                                                    color: Colors.white,
+                                                    fontFamily: 'Poppins',
+                                                    decoration:
+                                                        TextDecoration.none),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // ShoppingCardItem(i),
+                      ],
+                    ),
+                  ]),
+                ),
+              ),
+            ),
+          );
   }
 }
